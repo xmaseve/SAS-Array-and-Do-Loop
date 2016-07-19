@@ -1,0 +1,49 @@
+data temp;
+  input x1 x2 x3 x4$ x5$;
+cards;
+1 2 3 AA BB
+2 3 4 AB CC
+3 4 5 AC DD
+4 5 6 AD EE
+5 6 7 AE FF
+6 7 8 AF GG
+;
+run;
+
+data new;
+  set temp;
+  array nvar{*} _numeric_;
+  do i = 1 to dim(nvar};
+    if nvar{i} > 3 then nvar{i} = .;
+  end;
+  drop i;
+run;
+
+data test;
+  set temp;
+  array nvars _numeric_;
+  do over nvars;
+    if nvars > 3 then nvars = .;
+  end;
+run;
+
+data two;
+  set temp;
+  array cvar{*} _character_;
+  do i = 1 to dim(cvar);
+    cvar{i} = substr(cvar{i}, 1, 1)
+  end;
+  drop i;
+run;
+
+data abcd;
+  set temp;
+  array nvars (*) _numeric_;
+  array pvars (*) px1 px2 px3;
+  array pctinc {3} _temporary_ (1.1 , 1.2 ,1.3); 
+  do i = 1 to dim(nvars);
+    pvars{i} = nvars{i} * pctinc{i};
+  end;
+  drop i;
+run;  
+
